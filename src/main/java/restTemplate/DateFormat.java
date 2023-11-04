@@ -1,6 +1,6 @@
 package restTemplate;
 
-public record Date(String year, String month, String day) {
+public record DateFormat(String year, String month, String day) {
 
     @Override
     public String toString() {

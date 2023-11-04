@@ -2,70 +2,41 @@ package restTemplate;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import restTemplate.exceptions.InvalidInputException;
-import restTemplate.exceptions.NotFoundCurrencyException;
 
 import java.util.Objects;
 
 @Service
 public class CurrencyService {
 
-    private final String CB_RF_SITE = "cbr-xml-daily.ru";
-
-    public String callService(String year, String month, String day, Country country, RestTemplate restTemplate) throws InvalidInputException, NotFoundCurrencyException {
-        return currencyOut(year, month, day, country, restTemplate);
-    }
+    private static final String CB_RF_SITE = "cbr-xml-daily.ru";
 
     /**
-     * Метод выводит валюту в читабельной форме
+     * Метод выводит на экран пользователя название и номинал валюты
      *
-     * @param year,month,day дата, на которую пользователь хочеь получить информацию
-     * @param country        страна, на которую пользователь хочет получить данные о валюте
-     * @return возвращает читабельную форму: название валюты/стоимость этой валюты в рублях на введёное пользователем дату
-     **/
-    private String currencyOut(String year, String month, String day, Country country, RestTemplate restTemplate) throws InvalidInputException, NotFoundCurrencyException {
-        String url = "https://www." + CB_RF_SITE + "/archive/" + getDate(year, month, day) + "/daily_json.js"; //yyyy/mm/dd
-        String currency = getCurrency(Objects.requireNonNull(restTemplate.getForObject(url, String.class)), country.name()); //использование API
-        String[] splittingName = currency.split(","); //разделяем валюту на компоненты
-        return splittingName[4].replace("\"Name\"", "Название валюты")
-                + splittingName[5].replace("\"Value\"", "Стоимость в рублях на " + getDate(year, month, day));
-    }
-
-    /**
-     * Метод разделяет множество валют.
-     *
-     * @param allText           текст, возвращенный из API(включая инфу, помимо валюты)
-     * @param userCurrencyChose валюта страны, которую вбил пользователь
-     * @return возвращает валюту
+     * @return возвращает переведённые на русский название и номинал валюты
      */
-    private String getCurrency(String allText, String userCurrencyChose) throws NotFoundCurrencyException {
-        String[] splitting = allText.split("\"Valute\": *"); //[0] - мусор, [1] - валюты
-        String[] currencies = splitting[1].split("},"); //разделяем валюты
+    public static String currencyOut(String year, String month, String day, String country, RestTemplate restTemplate) {
+        String[] splittingName = getCurrency(year, month, day, country, restTemplate).split(","); //разделяем валюту на компоненты: мусор([1][2][3]), название валюты([4]), номинал валюты([5])
+        return splittingName[4].replace("\"Name\"", "Название валюты") //перевод на русский с помощью .replace()
+                + splittingName[5].replace("\"Value\"", "Стоимость в рублях на " + new DateFormat(year, month, day)); //вывод названия валюты и номинала
+    }
+
+    /**
+     * Метод обращается к API ЦБ РФ, находит нужную валюту, которая была выбрана пользователем
+     *
+     * @return возвращает валюту, которую выбрал пользователь
+     */
+    private static String getCurrency(String year, String month, String day, String country, RestTemplate restTemplate) {
+        String url = "https://www." + CB_RF_SITE + "/archive/" + new DateFormat(year, month, day) + "/daily_json.js"; //создание url для обращения к API ЦБ РФ. Дата в формате yyyy/mm/dd
+        String allText = Objects.requireNonNull(restTemplate.getForObject(url, String.class)); //получение текста с валютами
+        String[] splitting = allText.split("\"Valute\": *"); //разделение текста на мусор и валюты. [0] - мусор, [1] - валюты
+        String[] currencies = splitting[1].split("},"); //разделяем текст валют на массив по 1 валюте в каждой ячейке
+        String necessaryCurrency = "";
         for (String currency : currencies) {
-            if (currency.contains(userCurrencyChose)) {
-                return currency;
+            if (currency.contains(country)) { //находим среди массива валют нужную ячейку
+                necessaryCurrency = currency;
             }
         }
-        throw new NotFoundCurrencyException(); //обработка в классе ExceptionHandlers.java
-    }
-
-    /**
-     * Метод устанавливает дату для дальнейшего получения API с сайта ЦБ РФ
-     *
-     * @return возвращает готовую дату для API в формате yyyy/mm/dd
-     */
-    private String getDate(String year, String month, String day) throws InvalidInputException {
-        int intMonth = Integer.parseInt(month);
-        int intDay = Integer.parseInt(day);
-        if (year.length() != 4 || intMonth > 12 || intMonth < 1 || intDay > 31 || intDay < 1) {
-            throw new InvalidInputException(); //обработка в классе ExceptionHandlers.java
-        }
-        if (intMonth < 10) {
-            month = "0" + intMonth;
-        }
-        if (intDay < 10) {
-            day = "0" + intDay;
-        }
-        return new Date(year, month, day).toString();
+        return necessaryCurrency; //возвращаем ячейку с нужной валютой
     }
 }

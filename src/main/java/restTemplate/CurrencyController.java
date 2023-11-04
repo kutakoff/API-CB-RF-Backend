@@ -1,21 +1,35 @@
 package restTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import restTemplate.exceptions.InvalidInputException;
-import restTemplate.exceptions.NotFoundCurrencyException;
+
+import java.time.LocalDate;
+
+import static restTemplate.CurrencyService.currencyOut;
 
 @RestController
-public class CurrencyController extends ExceptionHandlers {
+@RequestMapping("/cbrf")
+public class CurrencyController {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping(value = "{year}/{month}/{day}/{country}", produces = "text/plain;charset=UTF-8")
-    public String getCurrency(@PathVariable String year, @PathVariable String month, @PathVariable String day, @PathVariable String country) throws InvalidInputException, NotFoundCurrencyException {
-        return new CurrencyService().callService(year, month, day, Country.valueOf(country.toUpperCase()), restTemplate);
+    /**
+     * Метод обрабатывает данные, которые юзер указал в Фронтенде, обратным ответом отправляет в фронт название и номинал валюты
+     *
+     * @param formDto обработка полученных данных из Фронтенда
+     * @return отправляет в фронтенд название и номинал валюты
+     */
+    @PostMapping("/currency")
+    @CrossOrigin
+    public String handleRequest(@RequestBody FormDto formDto) {
+        // Обработка полученных данных
+        LocalDate date = formDto.getDate();
+        String day = String.valueOf(date.getDayOfMonth()); //получаем день
+        String month = String.valueOf(date.getMonthValue()); //получаем месяц
+        String year = String.valueOf(date.getYear()); //получаем год
+        String country = formDto.getComponent(); //получаем страну
+        return currencyOut(year, month, day, country, restTemplate); //выводит на экран пользователя название и номинал валюты
     }
 }
