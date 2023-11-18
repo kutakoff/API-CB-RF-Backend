@@ -7,7 +7,7 @@ import java.time.LocalDate;
  */
 public class FormDto {
     private LocalDate date;
-    private String component;
+    private String country;
 
     public LocalDate getDate() {
         return date;
@@ -17,11 +17,19 @@ public class FormDto {
         this.date = date;
     }
 
-    public String getComponent() {
-        return component;
+    public String getCountry() {
+        return country;
     }
 
-    public void setComponent(String component) {
-        this.component = component;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public FormDto() {
+    }
+
+    public FormDto(LocalDate date, String component) {
+        this.date = date;
+        this.country = component;
     }
 }

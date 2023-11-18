@@ -3,6 +3,7 @@ package restTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
@@ -31,12 +32,18 @@ public class CurrencyService {
         String allText = Objects.requireNonNull(restTemplate.getForObject(url, String.class)); //получение текста с валютами
         String[] splitting = allText.split("\"Valute\": *"); //разделение текста на мусор и валюты. [0] - мусор, [1] - валюты
         String[] currencies = splitting[1].split("},"); //разделяем текст валют на массив по 1 валюте в каждой ячейке
-        String necessaryCurrency = "";
         for (String currency : currencies) {
             if (currency.contains(country)) { //находим среди массива валют нужную ячейку
-                necessaryCurrency = currency;
+                return currency;
             }
         }
-        return necessaryCurrency; //возвращаем ячейку с нужной валютой
+        throw new RuntimeException("Данной валюты нет в списке доступных валют.");
+    }
+
+    public static void isTransmittedDateAfterNow(LocalDate transmittedDate) {
+        LocalDate nowDate = LocalDate.now();
+        if (transmittedDate.isAfter(nowDate)) {
+            throw new RuntimeException("Установленная дата не должна быть больше нынешней.");
+        }
     }
 }

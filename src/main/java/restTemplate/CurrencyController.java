@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 
-import static restTemplate.CurrencyService.currencyOut;
+import static restTemplate.CurrencyService.*;
 
 @RestController
 @RequestMapping("/cbrf")
@@ -26,10 +26,11 @@ public class CurrencyController {
     public String handleRequest(@RequestBody FormDto formDto) {
         // Обработка полученных данных
         LocalDate date = formDto.getDate();
-        String day = String.valueOf(date.getDayOfMonth()); //получаем день
-        String month = String.valueOf(date.getMonthValue()); //получаем месяц
-        String year = String.valueOf(date.getYear()); //получаем год
-        String country = formDto.getComponent(); //получаем страну
+        isTransmittedDateAfterNow(date); //проверка на то, что установленная дата не позднее нынешней
+        String day = String.valueOf(date.getDayOfMonth());
+        String month = String.valueOf(date.getMonthValue());
+        String year = String.valueOf(date.getYear());
+        String country = formDto.getCountry(); //получаем страну
         return currencyOut(year, month, day, country, restTemplate); //выводит на экран пользователя название и номинал валюты
     }
 }

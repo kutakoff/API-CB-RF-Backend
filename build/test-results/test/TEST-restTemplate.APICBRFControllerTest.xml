@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="restTemplate.APICBRFControllerTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-11-17T16:23:20" hostname="DESKTOP-D3OEKMS" time="0.265">
+  <properties/>
+  <testcase name="isClientError400WithNullArgument()" classname="restTemplate.APICBRFControllerTest" time="0.156"/>
+  <testcase name="isClientError400WithEmptyArgument()" classname="restTemplate.APICBRFControllerTest" time="0.033"/>
+  <testcase name="isClientErrorWithArrayStoreException()" classname="restTemplate.APICBRFControllerTest" time="0.014"/>
+  <testcase name="isClientErrorWithHttpClientErrorException()" classname="restTemplate.APICBRFControllerTest" time="0.011"/>
+  <testcase name="isOkWithCorrectData()" classname="restTemplate.APICBRFControllerTest" time="0.009"/>
+  <testcase name="isClientError404WithUnavailableDate()" classname="restTemplate.APICBRFControllerTest" time="0.006"/>
+  <testcase name="isClientError400WithFirstNullArgumentData()" classname="restTemplate.APICBRFControllerTest" time="0.006"/>
+  <testcase name="isClientError400WithSecondNullArgumentData()" classname="restTemplate.APICBRFControllerTest" time="0.006"/>
+  <testcase name="isClientErrorWithNullPointerException()" classname="restTemplate.APICBRFControllerTest" time="0.005"/>
+  <testcase name="isClientError404WithUnavailableCurrency()" classname="restTemplate.APICBRFControllerTest" time="0.005"/>
+  <system-out><![CDATA[19:23:17.870 [Test worker] DEBUG org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper -- Neither @ContextConfiguration nor @ContextHierarchy found for test class [APICBRFControllerTest]: using SpringBootContextLoader
+19:23:17.878 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader -- Could not detect default resource locations for test class [restTemplate.APICBRFControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+19:23:17.879 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [restTemplate.APICBRFControllerTest]: APICBRFControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:23:17.945 [Test worker] DEBUG org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper -- Using ContextCustomizers for test class [APICBRFControllerTest]: [DisableAutoConfigurationContextCustomizer, DisableObservabilityContextCustomizer, TypeExcludeFiltersContextCustomizer, PropertyMappingContextCustomizer, Customizer, ImportsContextCustomizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer]
+19:23:18.005 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider -- Identified candidate component class: file [C:\Users\user\IdeaProjects\RestTemplate\build\classes\java\main\restTemplate\APICBRFApplication.class]
+19:23:18.024 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration restTemplate.APICBRFApplication for test class restTemplate.APICBRFControllerTest
+19:23:18.033 [Test worker] DEBUG org.springframework.test.context.util.TestContextSpringFactoriesUtils -- Skipping candidate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] due to a missing dependency. Specify custom TestExecutionListener classes or make the default TestExecutionListener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
+19:23:18.035 [Test worker] DEBUG org.springframework.test.context.util.TestContextSpringFactoriesUtils -- Skipping candidate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener] due to a missing dependency. Specify custom TestExecutionListener classes or make the default TestExecutionListener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+19:23:18.038 [Test worker] DEBUG org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper -- Using TestExecutionListeners for test class [APICBRFControllerTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+19:23:18.039 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener -- Before test class: class [APICBRFControllerTest], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.5)
+
+2023-11-17T19:23:18.569+03:00  INFO 11136 --- [    Test worker] restTemplate.APICBRFControllerTest       : Starting APICBRFControllerTest using Java 17.0.8.1 with PID 11136 (started by user in C:\Users\user\IdeaProjects\RestTemplate)
+2023-11-17T19:23:18.572+03:00  INFO 11136 --- [    Test worker] restTemplate.APICBRFControllerTest       : No active profile set, falling back to 1 default profile: "default"
+2023-11-17T19:23:20.341+03:00  INFO 11136 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-11-17T19:23:20.341+03:00  INFO 11136 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-11-17T19:23:20.344+03:00  INFO 11136 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2023-11-17T19:23:20.375+03:00  INFO 11136 --- [    Test worker] restTemplate.APICBRFControllerTest       : Started APICBRFControllerTest in 2.265 seconds (process running for 3.471)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
